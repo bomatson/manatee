@@ -12,11 +12,7 @@ Leap.loop(function(frame) {
 var Manatee = function() {
   var manatee = this;
   var img = document.createElement('img');
-  var pictures = Array(
-      'http://ian.umces.edu/imagelibrary/albums/userpics/12789/normal_ian-symbol-trichechus-spp.png',
-      'http://projects-ext.s3.amazonaws.com/personal/manatee2.jpg',
-      'http://projects-ext.s3.amazonaws.com/personal/manatee.jpg');
-  img.src = pictures[Math.floor(Math.random()*pictures.length)];
+  img.src = 'http://projects-ext.s3.amazonaws.com/personal/manatee2.jpg';
   img.style.position = 'absolute';
   img.onload = function () {
     manatee.setTransform(

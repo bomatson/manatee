@@ -6,7 +6,7 @@ head
 
     Leap.loop(function(frame) {
 
-      frame.pointables.forEach(function(pointable, index) {
+      frame.hands.forEach(function(pointable, index) {
         var manatee = ( manatees[index] || (manatees[index] = new Manatee()) );
         manatee.setTransform(pointable.screenPosition());
       });

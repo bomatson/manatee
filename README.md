@@ -163,7 +163,7 @@ head
   script(type='text/javascript' src='http://js.leapmotion.com/leap-plugins-0.1.3.js')
 ````
 
-Once I could get the manatees swimming locally again, I created a Procfile with `web node web.js` and a package.json file. From there, I ran `heroku create` and `git push heroku master`. Before I knew it, I could swim with manatees over the live web! You can see the app running on heroku here: http://manatee-swim.herokuapp.com/
+Once I could get the manatees swimming locally again, I created a Procfile with `web node web.js` and a package.json file. From there, I ran `heroku create` and `git push heroku master`. Before I knew it, I could swim with manatees over the live web! [You can see the app running on heroku here](http://manatee-swim.herokuapp.com/)
 
 ###Next Steps
 

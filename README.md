@@ -1,6 +1,8 @@
 #Launching a LeapMotion Manatee App
 
-The LeapMotion, a small usb device used to gather motion sensing data, has a variety of applications in science, medicine, and the arts. Previously, I worked on a Leap DrumKit using Ruby and MIDI and it was a great experience. For the next Leap app, I opted to get a little more sophisticated. This time, I wanted to create a game where swimming manatees are controlled with your fingertips. You can see a demonstration of the app here: VIDEO 
+The LeapMotion, a small usb device used to gather motion sensing data, has a variety of applications in science, medicine, and the arts. Previously, [ I worked on a Leap DrumKit using Ruby and MIDI ](http://blog.carbonfive.com/2014/03/20/building-a-leapmotion-drumset-in-ruby/) and it was a great experience. For the next Leap app, I opted to get a little more sophisticated. This time, I wanted to create an environment where swimming manatees are controlled with your fingertips. 
+
+[You can see a demonstration of the app here](http://youtu.be/fqeAbv8ZQAI)
 
 ###How the LeapMotion uses Websockets
 
@@ -46,7 +48,7 @@ Each of these events, called deviceEvents, has a state and tracking data associa
    "touchZone": string - one of "none", "hovering", "touching"
 ````
 
-LeapJS, the javascript library for the LeapMotion, does an impressive job of handling this websocket connection. Taking a peak, I noticed that the library used EventEmitter to broadcast connection event types when handling each frame:
+[LeapJS](https://developer.leapmotion.com/leapjs/welcome), the javascript library for the LeapMotion, does an impressive job of handling this websocket connection. Taking a peak at the source, I noticed that the library used EventEmitter to broadcast connection event types when handling each frame:
 
 ````
 BaseConnection.prototype.handleData = function(data) {
@@ -125,7 +127,7 @@ This was my first draft of the app, where all I used were two files (manatee.htm
 
 ###Deploying the Manatees
 
-Next, I used Node.js, Express.js and the Jade tempting engine to setup a bit of structure around the manatees:
+Next, I used Node.js, Express.js and the Jade templating engine to setup a bit of structure around the manatees:
 
 ````
 var express = require("express");

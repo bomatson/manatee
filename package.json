@@ -1,0 +1,35 @@
+{
+  "name": "manatee",
+  "version": "0.0.0",
+  "description": "make the manatees swim!",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bomatson/manatee.git"
+  },
+  "keywords": [
+    "leapjs",
+    "heroku",
+    "manatee",
+    "node"
+  ],
+  "author": "Bobby Matson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bomatson/manatee/issues"
+  },
+  "homepage": "https://github.com/bomatson/manatee",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "logfmt": "~1.1.2",
+    "express": "~4.1.1",
+    "jade": "~1.3.1",
+    "leapjs": "~0.5.0",
+    "leapjs-plugins": "~0.1.4"
+  }
+}

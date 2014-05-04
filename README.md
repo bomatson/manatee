@@ -121,9 +121,9 @@ var Manatee = function() {
 };
 ````
 
-The real interesting part is setTransform, which uses the image height and width to determine positioning. On every frame, the app passes each finger’s screenPosition to that manatee’s setTransform function, which will update the image’s location on the screen. 
+The real interesting part is setTransform, which uses the image height and width to determine positioning. On every frame, the app passes each finger’s screenPosition to that manatee’s setTransform function, which will update the image’s location on the screen.
 
-This was my first draft of the app, where all I used were two files (manatee.html & manatee.js) to get up to 10 manatees swimming together! You can see the code in a spike branch on github https://github.com/bomatson/manatee/tree/spike/minimalist
+This was my first draft of the app, where all I used were two files (manatee.html & manatee.js) to get up to 10 manatees swimming together! [You can see the code in a spike branch on github](https://github.com/bomatson/manatee/tree/spike/minimalist)
 
 ###Deploying the Manatees
 
@@ -168,5 +168,3 @@ Once I could get the manatees swimming locally again, I created a Procfile with 
 ###Next Steps
 
 For this experiment, it would be fun to add collision detection and a bit of side scrolling in ocean. Right now, the poor thing just floats in air. As part of this improvement, I want to figure out a better structure to deploying LeapJs applications. I would prefer to send frame data with express.js somehow and setup routes that are bound to certain Leap events. If that is too heavy, I could at least set up listeners that interact with the html elements directly, and most likely use canvas if I end up doing more intense drawing on the DOM. 
-
-

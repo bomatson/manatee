@@ -7,13 +7,12 @@ var app = express();
 
 app.use(logfmt.requestLogger());
 
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
-
-var streaming = controller.connected();
-console.log(streaming)
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 
 app.get('/', function(req, res) {
+  var streaming = controller.connected();
+  console.log(streaming);
   res.render('root', { title: 'Manatees!', streaming: streaming });
 });
 

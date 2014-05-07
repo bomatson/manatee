@@ -6,6 +6,7 @@ var controller = new Leap.Controller()
 var app = express();
 
 app.use(logfmt.requestLogger());
+app.use(express.static('public'));
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');

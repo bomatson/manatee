@@ -2,9 +2,9 @@ manatees = {};
 
 Leap.loop(function(frame) {
 
-  frame.pointables.forEach(function(pointable, index) {
+  frame.hands.forEach(function(hand, index) {
     var manatee = ( manatees[index] || (manatees[index] = new Manatee()) );
-    manatee.setTransform(pointable.screenPosition());
+    manatee.setTransform(hand.screenPosition());
   });
 
 }).use('screenPosition', {scale: 0.25});
@@ -28,6 +28,10 @@ var Manatee = function() {
 
     img.style.left = position[0] - img.width  / 2 + 'px';
     img.style.top  = position[1] - img.height / 2 + 'px';
+
+    if (position[1] > (window.innerHeight/2)) {
+      document.getElementById('chirp').play()
+    };
 
     img.style.webkitTransform = img.style.MozTransform = img.style.msTransform =
       img.style.OTransform = img.style.transform;

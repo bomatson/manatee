@@ -12,7 +12,7 @@ Leap.loop(function(frame) {
 var Manatee = function() {
   var manatee = this;
   var img = document.createElement('img');
-  img.src = 'http://projects-ext.s3.amazonaws.com/personal/manatee2.jpg';
+  img.src = 'http://projects-ext.s3.amazonaws.com/personal/manatee.png';
   img.style.position = 'absolute';
   img.onload = function () {
     manatee.setTransform(

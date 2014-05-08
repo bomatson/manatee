@@ -1,3 +1,54 @@
-body{
-  background: blue;
+html, body {
+  margin: 0 auto;
+  height: 100%
+}
+#wrapper {
+  width:100%;
+  min-height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+#back-wave {
+  position: absolute;
+  left: -30px;
+  width: 110%;
+  height: 85px;
+  padding-top: 10px;
+  background: url(http://taylor-collins.com/codepen.dev/back-wave.png);
+  -moz-animation: back-wave 2s ease infinite;
+  -webkit-animation: back-wave 2s ease infinite;
+  animation: back-wave 2s ease infinite;
+}
+
+#front-wave {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  width: 110%;
+  height: 84px;
+  background: url(http://taylor-collins.com/codepen.dev/front-wave.png) repeat;
+  -moz-animation: front-wave 1.5s infinite;
+  -webkit-animation: front-wave 1.5s infinite;
+  animation: front-wave 1.5s infinite;
+}
+#content {
+  height: 750px;
+  position: relative;
+  top: 100px;
+  background-color: #4ca1c3;
+}
+
+@-webkit-keyframes back-wave {
+  40% {
+    -webkit-transform: rotateZ(.02rad);
+    left: 0px;
+    top: 3px;
+  }
+}
+@-webkit-keyframes front-wave {
+  50% {
+      -webkit-transform: rotateZ(.02rad);
+      left: -30px;
+      top:42px;
+    }
 }

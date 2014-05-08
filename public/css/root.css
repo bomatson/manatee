@@ -2,6 +2,10 @@ html, body {
   margin: 0 auto;
   height: 100%
 }
+#cannon{
+  position: relative;
+  top: 400px;
+}
 #wrapper {
   width:100%;
   min-height: 100%;

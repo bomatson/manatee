@@ -38,7 +38,7 @@ function catchLettuce(){
   cancelAnimationFrame(animationId);
   yPos = (Math.floor((Math.random() * 200) + 1));
   xPos = (Math.floor((Math.random() * 120) + 1));
-  gameLoop();
+  setup();
 };
 
 function setCounter(){

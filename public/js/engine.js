@@ -1,12 +1,15 @@
-var canvas, ctx, lettuce, animationId, counter;
+var canvas, ctx, lettuce, animationId, counter, content;
 var xPos = 0;
 var yPos = 0;
 
-function gameLoop() {
+function setup() {
   canvas = document.getElementById('canvas');
+  content = document.getElementById('content');
   ctx = canvas.getContext('2d');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  content.height = canvas.height;
+
   setCounter();
 
   renderLettuce();
@@ -52,4 +55,4 @@ function checkGameEnd() {
     counter.innerHTML = 'Game over, sucker!'
   };
 };
-gameLoop();
+setup();

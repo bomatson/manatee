@@ -36,7 +36,6 @@ html, body {
   animation: front-wave 1.5s infinite;
 }
 #content {
-  height: 750px;
   position: relative;
   top: 100px;
   background-color: #4ca1c3;

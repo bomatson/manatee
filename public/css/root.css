@@ -56,3 +56,10 @@ html, body {
       top:42px;
     }
 }
+
+.counter {
+  padding: 50px;
+  font-size: 30px;
+  right: 0;
+  position: absolute;
+}

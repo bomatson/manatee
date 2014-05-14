@@ -27,7 +27,7 @@ function throwLettuce() {
   if (yPos > window.innerHeight) {
     // explode the lettuce
   }
-  xPos = xPos += 5
+  xPos = xPos += 10
   ctx.drawImage(lettuce,xPos,yPos);
   animationId = requestAnimationFrame(throwLettuce);
   checkGameEnd();

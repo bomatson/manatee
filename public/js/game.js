@@ -1,14 +1,11 @@
 var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
-var manatee, delta;
 var stage = new PIXI.Stage(0xEEFFFF);
-var lettuce = [];
-
+var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
+var manatee, delta;
 
 document.body.appendChild(renderer.view);
-
-var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 
 loader.onComplete = loadGameArtifacts;
 loader.load();
@@ -57,7 +54,7 @@ var Lettuce = function() {
   };
 
   this.checkBounds = function() {
-    if(this.x > (WIDTH - 10) || this.getBounds().contains(manatee.x, manatee.y)) {
+    if(this.x > (WIDTH - 10) || manatee.hitArea.contains(this.x, this.y)) {
       stage.removeChild(this);
     };
   }
@@ -77,24 +74,36 @@ function renderManatee() {
   stage.addChild(manatee);
 }
 
-var timer = window.performance.now();
-
-function gameLoop() {
-  var now = window.performance.now();
-  delta = Math.min(now - timer, 20);
-  timer = now;
+function lettuceDetection() {
   for(i=0; i< stage.children.length; i++) {
     if(stage.children[i].updateMovement !== undefined) {
       stage.children[i].updateMovement();
       stage.children[i].checkBounds();
     }
   };
+
   if(stage.children.length < 100) {
     new Lettuce().render();
   };
+}
+
+function manateeDetection() {
   var point = stage.getMousePosition();
   manatee.position.x = point.x;
   manatee.position.y = point.y;
+  manatee.hitArea = manatee.getBounds();
+}
+
+var timer = window.performance.now();
+
+function gameLoop() {
+  var now = window.performance.now();
+  delta = Math.min(now - timer, 20);
+  timer = now;
+
+  lettuceDetection();
+  manateeDetection();
+
   requestAnimFrame(gameLoop);
   renderer.render(stage);
 }

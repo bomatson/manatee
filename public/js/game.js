@@ -4,7 +4,6 @@ var manatee, delta;
 var stage = new PIXI.Stage(0xEEFFFF);
 var lettuce = [];
 
-
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
 
 document.body.appendChild(renderer.view);
@@ -90,10 +89,10 @@ function gameLoop() {
       stage.children[i].checkBounds();
     }
   };
-  if(stage.children.length < 1500) {
+  if(stage.children.length < 100) {
     new Lettuce().render();
   };
- var point = stage.getMousePosition();
+  var point = stage.getMousePosition();
   manatee.position.x = point.x;
   manatee.position.y = point.y;
   requestAnimFrame(gameLoop);

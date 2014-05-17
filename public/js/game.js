@@ -3,7 +3,10 @@ var HEIGHT = window.innerHeight;
 var stage = new PIXI.Stage(0xEEFFFF);
 var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
-var manatee, delta;
+var manatee, delta, timer;
+var controller = new Leap.Controller({frameEventName: 'animationFrame'})
+controller.use('screenPosition', {scale: 0.25});
+controller.connect()
 
 document.body.appendChild(renderer.view);
 
@@ -13,7 +16,8 @@ loader.load();
 function loadGameArtifacts() {
   renderManatee();
   stage.addChild(new Lettuce().render());
-  requestAnimFrame(gameLoop);
+  determineGameplay();
+
 }
 
 var Lettuce = function() {
@@ -87,8 +91,7 @@ function lettuceDetection() {
   };
 }
 
-function manateeDetection() {
-  var point = stage.getMousePosition();
+function manateeDetection(point) {
   manatee.position.x = point.x;
   manatee.position.y = point.y;
   manatee.hitArea = manatee.getBounds();
@@ -96,11 +99,34 @@ function manateeDetection() {
 
 var timer = window.performance.now();
 
+function determineGameplay() {
+
+  if(controller.streaming()) {
+    controller.on('frame', function(frame) {
+      var now = window.performance.now();
+      delta = Math.min(now - timer, 20);
+      timer = now;
+
+      lettuceDetection();
+      frame.hands.forEach(function(hand) {
+        var point = hand.screenPosition()
+        point = {x: point[0], y: point[1]};
+        manateeDetection(point);
+      });
+
+      renderer.render(stage);
+    });
+  } else {
+    requestAnimFrame(gameLoop);
+  }
+}
+
 function gameLoop() {
   var now = window.performance.now();
   delta = Math.min(now - timer, 20);
   timer = now;
 
+  var point = stage.getMousePosition();
   lettuceDetection();
   manateeDetection();
 

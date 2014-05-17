@@ -5,6 +5,9 @@ var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
 var manatee, delta, timer;
 var controller = new Leap.Controller({frameEventName: 'animationFrame'})
+var counter = 0;
+var countingText = new PIXI.Text(counter);
+
 controller.use('screenPosition', {scale: 0.25});
 controller.connect()
 
@@ -16,8 +19,15 @@ loader.load();
 function loadGameArtifacts() {
   renderManatee();
   stage.addChild(new Lettuce().render());
+  setupCounter();
   determineGameplay();
+}
 
+function setupCounter() {
+  countingText.position.x = (WIDTH - 100);
+  countingText.position.y = 30;
+  countingText.anchor.x = 0.5;
+  stage.addChild(countingText);
 }
 
 var Lettuce = function() {
@@ -33,6 +43,7 @@ var Lettuce = function() {
 
     image.updateMovement = this.updateMovement;
     image.checkBounds = this.checkBounds;
+    image.checkEaten = this.checkEaten;
     speed = (Math.random() * 0.3) + 0.1;
     return image
   };
@@ -58,7 +69,15 @@ var Lettuce = function() {
   };
 
   this.checkBounds = function() {
-    if(this.x > (WIDTH - 10) || manatee.hitArea.contains(this.x, this.y)) {
+    if(this.x > (WIDTH - 10)) {
+      stage.removeChild(this);
+    };
+  };
+
+  this.checkEaten = function() {
+    if(manatee.hitArea.contains(this.x, this.y)) {
+      counter++;
+      countingText.setText(counter);
       stage.removeChild(this);
     };
   }
@@ -80,9 +99,10 @@ function renderManatee() {
 
 function lettuceDetection() {
   for(i=0; i< stage.children.length; i++) {
-    if(stage.children[i].updateMovement !== undefined) {
+    if(stage.children[i].updateMovement !== undefined && stage.children[i] !== undefined) {
       stage.children[i].updateMovement();
       stage.children[i].checkBounds();
+      stage.children[i].checkEaten();
     }
   };
 
@@ -99,15 +119,24 @@ function manateeDetection(point) {
 
 var timer = window.performance.now();
 
+function swimmingFriends() {
+
+}
+function updateFrame() {
+  var now = window.performance.now();
+  delta = Math.min(now - timer, 20);
+  timer = now;
+
+  lettuceDetection();
+  swimmingFriends();
+}
+
 function determineGameplay() {
 
   if(controller.streaming()) {
     controller.on('frame', function(frame) {
-      var now = window.performance.now();
-      delta = Math.min(now - timer, 20);
-      timer = now;
+      updateFrame();
 
-      lettuceDetection();
       frame.hands.forEach(function(hand) {
         var point = hand.screenPosition()
         point = {x: point[0], y: point[1]};
@@ -117,19 +146,17 @@ function determineGameplay() {
       renderer.render(stage);
     });
   } else {
-    requestAnimFrame(gameLoop);
+    requestAnimFrame(defaultGameLoop);
   }
 }
 
-function gameLoop() {
-  var now = window.performance.now();
-  delta = Math.min(now - timer, 20);
-  timer = now;
+
+function defaultGameLoop() {
+  updateFrame();
 
   var point = stage.getMousePosition();
-  lettuceDetection();
-  manateeDetection();
+  manateeDetection(point);
 
-  requestAnimFrame(gameLoop);
+  requestAnimFrame(defaultGameLoop);
   renderer.render(stage);
 }

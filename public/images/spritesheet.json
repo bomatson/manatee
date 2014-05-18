@@ -1,0 +1,195 @@
+{
+  "frames": {
+    "alligator.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 800,
+        "h": 203
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 800,
+        "h": 203
+      },
+      "sourceSize": {
+        "w": 800,
+        "h": 203
+      }
+    },
+    "long_fishy.png": {
+      "frame": {
+        "x": 0,
+        "y": 203,
+        "w": 600,
+        "h": 76
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 600,
+        "h": 76
+      },
+      "sourceSize": {
+        "w": 600,
+        "h": 76
+      }
+    },
+    "manatee-main.png": {
+      "frame": {
+        "x": 0,
+        "y": 279,
+        "w": 377,
+        "h": 159
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 377,
+        "h": 159
+      },
+      "sourceSize": {
+        "w": 377,
+        "h": 159
+      }
+    },
+    "manatee-munch.png": {
+      "frame": {
+        "x": 377,
+        "y": 279,
+        "w": 377,
+        "h": 159
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 377,
+        "h": 159
+      },
+      "sourceSize": {
+        "w": 377,
+        "h": 159
+      }
+    },
+    "green_fishy.png": {
+      "frame": {
+        "x": 0,
+        "y": 438,
+        "w": 150,
+        "h": 85
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 85
+      },
+      "sourceSize": {
+        "w": 150,
+        "h": 85
+      }
+    },
+    "orange_fishy.png": {
+      "frame": {
+        "x": 150,
+        "y": 438,
+        "w": 150,
+        "h": 85
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 85
+      },
+      "sourceSize": {
+        "w": 150,
+        "h": 85
+      }
+    },
+    "pink_fishy.png": {
+      "frame": {
+        "x": 300,
+        "y": 438,
+        "w": 150,
+        "h": 85
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 150,
+        "h": 85
+      },
+      "sourceSize": {
+        "w": 150,
+        "h": 85
+      }
+    },
+    "food.png": {
+      "frame": {
+        "x": 600,
+        "y": 203,
+        "w": 62,
+        "h": 58
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 62,
+        "h": 58
+      },
+      "sourceSize": {
+        "w": 62,
+        "h": 58
+      }
+    },
+    "plecostomus_fishy.png": {
+      "frame": {
+        "x": 662,
+        "y": 203,
+        "w": 62,
+        "h": 58
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 62,
+        "h": 58
+      },
+      "sourceSize": {
+        "w": 62,
+        "h": 58
+      }
+    }
+  },
+  "meta": {
+    "app": "http://www.texturepacker.com",
+    "version": "1.0",
+    "image": "spritesheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 800,
+      "h": 523
+    },
+    "scale": 1
+  }
+}

@@ -3,7 +3,7 @@ var HEIGHT = window.innerHeight;
 var stage = new PIXI.Stage(0xEEFFFF);
 var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
-var manatee, delta, timer;
+var manatee, delta, timer, enemyPresent;
 var controller = new Leap.Controller({frameEventName: 'animationFrame'})
 var counter = 0;
 var countingText = new PIXI.Text(counter);
@@ -30,6 +30,19 @@ function setupCounter() {
   stage.addChild(countingText);
 }
 
+function gameOver() {
+  var caption = new PIXI.Text("Game Over", {
+    font: "100px Helvetica", fill: "red"
+  });
+
+  caption.x = WIDTH / 2;
+  caption.y = HEIGHT / 2;
+
+  stage.addChild(caption);
+
+  return renderer.render(stage);
+}
+
 var Fishy = function() {
   this.render =  function(type) {
     var image = PIXI.Sprite.fromFrame(type + '_fishy.png');
@@ -53,6 +66,43 @@ var Fishy = function() {
       stage.removeChild(this);
     };
   };
+}
+
+var Alligator = function() {
+  this.render = function() {
+    if(enemyPresent) { return };
+    var image = PIXI.Sprite.fromFrame('alligator.png');
+    var randomY = (Math.floor((Math.random() * 500) + 1));
+
+    image.anchor.x = 0.5;
+    image.anchor.y = 0.5;
+    image.position.x = (WIDTH - 10);
+    image.position.y = (randomY + 100);
+    stage.addChild(image);
+    enemyPresent = true;
+    hitArea = image.getBounds();
+
+    image.updateMovement = this.updateMovement;
+    image.checkBounds = this.checkBounds;
+    image.checkEaten = this.checkEaten;
+    return image
+  };
+  var hitArea = null;
+  this.updateMovement = function() {
+    this.position.x -= 0.2 * delta
+  };
+  this.checkBounds = function() {
+    hitArea = this.getBounds();
+    if(this.x < 0) {
+      stage.removeChild(this);
+      enemyPresent = false;
+    };
+  };
+  this.checkEaten = function() {
+    if(hitArea.contains(manatee.x, manatee.y)) {
+      gameOver();
+    };
+  }
 }
 
 var Lettuce = function() {
@@ -148,7 +198,7 @@ function manateeDetection(point) {
 
 function createSwimmingFriends() {
   switch(true) {
-    case(((counter % 33) == 0)):
+    case(((counter % 39) == 0)):
       new Fishy().render('green');
       break;
     case((counter % 100) == 0):
@@ -162,6 +212,13 @@ function createSwimmingFriends() {
   }
 }
 
+function createSwimmingEnemy() {
+  if(counter % 105 == 0){
+    new Alligator().render();
+  }
+
+}
+
 var timer = window.performance.now();
 
 function updateFrame() {
@@ -173,6 +230,7 @@ function updateFrame() {
   if(counter > 100) {
     createSwimmingFriends();
   }
+  createSwimmingEnemy();
 }
 
 function determineGameplay() {

@@ -30,9 +30,34 @@ function setupCounter() {
   stage.addChild(countingText);
 }
 
+var Fishy = function() {
+  this.render =  function(type) {
+    var image = PIXI.Sprite.fromFrame(type + '_fishy.png');
+    var randomY = (Math.floor((Math.random() * 300) + 1));
+
+    image.anchor.x = 0.5;
+    image.anchor.y = 0.5;
+    image.position.x = (WIDTH - 10);
+    image.position.y = (randomY + 100);
+    stage.addChild(image);
+
+    image.updateMovement = this.updateMovement;
+    image.checkBounds = this.checkBounds;
+    return image
+  };
+  this.updateMovement = function() {
+    this.position.x -= 0.2 * delta
+  };
+  this.checkBounds = function() {
+    if(this.x < 0) {
+      stage.removeChild(this);
+    };
+  };
+}
+
 var Lettuce = function() {
   this.render =  function() {
-    var image = PIXI.Sprite.fromFrame('ood.png');
+    var image = PIXI.Sprite.fromFrame('food.png');
     var randomY = (Math.floor((Math.random() * 300) + 1));
 
     image.anchor.x = 0.5;
@@ -84,7 +109,7 @@ var Lettuce = function() {
 }
 
 function renderManatee() {
-  manatee = PIXI.Sprite.fromFrame('anatee-main.png');
+  manatee = PIXI.Sprite.fromFrame('manatee-main.png');
 
   manatee.anchor.x = 0.5;
   manatee.anchor.y = 0.5;
@@ -97,11 +122,15 @@ function renderManatee() {
   stage.addChild(manatee);
 }
 
-function lettuceDetection() {
+function updateEnvironmentMovements() {
+
   for(i=0; i< stage.children.length; i++) {
     if(stage.children[i].updateMovement !== undefined && stage.children[i] !== undefined) {
       stage.children[i].updateMovement();
       stage.children[i].checkBounds();
+    };
+
+    if(stage.children[i].checkEaten !== undefined) {
       stage.children[i].checkEaten();
     }
   };
@@ -117,18 +146,33 @@ function manateeDetection(point) {
   manatee.hitArea = manatee.getBounds();
 }
 
+function createSwimmingFriends() {
+  switch(true) {
+    case(((counter % 33) == 0)):
+      new Fishy().render('green');
+      break;
+    case((counter % 100) == 0):
+      new Fishy().render('orange');
+      break;
+    case((counter % 101) == 0):
+      new Fishy().render('pink');
+      break;
+    default:
+      return;
+  }
+}
+
 var timer = window.performance.now();
 
-function swimmingFriends() {
-
-}
 function updateFrame() {
   var now = window.performance.now();
   delta = Math.min(now - timer, 20);
   timer = now;
 
-  lettuceDetection();
-  swimmingFriends();
+  updateEnvironmentMovements();
+  if(counter > 100) {
+    createSwimmingFriends();
+  }
 }
 
 function determineGameplay() {

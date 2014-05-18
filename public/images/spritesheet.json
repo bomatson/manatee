@@ -1,6 +1,6 @@
 {
   "frames": {
-    "lligator.png": {
+    "alligator.png": {
       "frame": {
         "x": 0,
         "y": 0,
@@ -20,7 +20,7 @@
         "h": 203
       }
     },
-    "ong_fishy.png": {
+    "long_fishy.png": {
       "frame": {
         "x": 0,
         "y": 203,
@@ -40,7 +40,7 @@
         "h": 76
       }
     },
-    "anatee-main.png": {
+    "manatee-main.png": {
       "frame": {
         "x": 0,
         "y": 279,
@@ -60,7 +60,7 @@
         "h": 159
       }
     },
-    "anatee-munch.png": {
+    "manatee-munch.png": {
       "frame": {
         "x": 377,
         "y": 279,
@@ -80,7 +80,7 @@
         "h": 159
       }
     },
-    "reen_fishy.png": {
+    "green_fishy.png": {
       "frame": {
         "x": 0,
         "y": 438,
@@ -100,7 +100,7 @@
         "h": 85
       }
     },
-    "range_fishy.png": {
+    "orange_fishy.png": {
       "frame": {
         "x": 150,
         "y": 438,
@@ -120,7 +120,7 @@
         "h": 85
       }
     },
-    "ink_fishy.png": {
+    "pink_fishy.png": {
       "frame": {
         "x": 300,
         "y": 438,
@@ -140,7 +140,7 @@
         "h": 85
       }
     },
-    "ood.png": {
+    "food.png": {
       "frame": {
         "x": 600,
         "y": 203,
@@ -160,7 +160,7 @@
         "h": 58
       }
     },
-    "lecostomus_fishy.png": {
+    "plecostomus_fishy.png": {
       "frame": {
         "x": 662,
         "y": 203,

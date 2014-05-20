@@ -30,6 +30,10 @@ function setupCounter() {
   stage.addChild(countingText);
 }
 
+// objects (Alligator)
+// functions (loadGameArtifacts)
+// imperative (controller.use, etc)
+
 function gameOver() {
   var caption = new PIXI.Text("Game Over", {
     font: "100px Helvetica", fill: "red"
@@ -41,31 +45,6 @@ function gameOver() {
   stage.addChild(caption);
 
   return renderer.render(stage);
-}
-
-var Fishy = function() {
-  this.render =  function(type) {
-    var image = PIXI.Sprite.fromFrame(type + '_fishy.png');
-    var randomY = (Math.floor((Math.random() * 300) + 1));
-
-    image.anchor.x = 0.5;
-    image.anchor.y = 0.5;
-    image.position.x = (WIDTH - 10);
-    image.position.y = (randomY + 100);
-    stage.addChild(image);
-
-    image.updateMovement = this.updateMovement;
-    image.checkBounds = this.checkBounds;
-    return image
-  };
-  this.updateMovement = function() {
-    this.position.x -= 0.2 * delta
-  };
-  this.checkBounds = function() {
-    if(this.x < 0) {
-      stage.removeChild(this);
-    };
-  };
 }
 
 var Alligator = function() {
@@ -199,13 +178,16 @@ function manateeDetection(point) {
 function createSwimmingFriends() {
   switch(true) {
     case(((counter % 39) == 0)):
-      new Fishy().render('green');
+      new SeaCreature('green_fishy', 300);
       break;
     case((counter % 100) == 0):
-      new Fishy().render('orange');
+      new SeaCreature('orange_fishy', 500);
       break;
     case((counter % 101) == 0):
-      new Fishy().render('pink');
+      new SeaCreature('pink_fishy', 300);
+      break;
+    case((counter % 107) == 0):
+      new SeaCreature('long_fishy', 600);
       break;
     default:
       return;

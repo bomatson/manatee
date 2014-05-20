@@ -93,7 +93,7 @@ var Alligator = function() {
   };
   this.checkBounds = function() {
     hitArea = this.getBounds();
-    if(this.x < 0) {
+    if(this.x < -this.width) {
       stage.removeChild(this);
       enemyPresent = false;
     };
@@ -216,7 +216,6 @@ function createSwimmingEnemy() {
   if(counter % 105 == 0){
     new Alligator().render();
   }
-
 }
 
 var timer = window.performance.now();

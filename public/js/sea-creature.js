@@ -1,25 +1,25 @@
 var SeaCreature = Class.extend({
   init: function(type, yPosition) {
-    this.render(type, yPosition);
+    this.image = PIXI.Sprite.fromFrame(type + '.png'),
+    this.image.updateMovement = this.updateMovement;
+    this.image.checkBounds = this.checkBounds;
+    this.render(yPosition);
   },
-  render: function(type, yPosition){
-    var image = PIXI.Sprite.fromFrame(type+ '.png');
+  render: function(yPosition){
     var randomY = (Math.floor((Math.random() * yPosition) + 1));
 
-    image.anchor.x = 0.5;
-    image.anchor.y = 0.5;
-    image.position.x = (WIDTH - 10);
-    image.position.y = (randomY + 100);
-    stage.addChild(image);
+    this.image.anchor.x = 0.5;
+    this.image.anchor.y = 0.5;
+    this.image.position.x = (WIDTH - 10);
+    this.image.position.y = (randomY + 100);
 
-    image.updateMovement = this.updateMovement;
-    image.checkBounds = this.checkBounds;
+    stage.addChild(this.image);
   },
   updateMovement: function() {
     this.position.x -= 0.2 * delta;
   },
   checkBounds: function() {
-    if(this.x < 0) {
+    if(this.x < -this.width) {
       stage.removeChild(this);
     }
   }

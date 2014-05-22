@@ -18,7 +18,6 @@ loader.load();
 
 function loadGameArtifacts() {
   renderManatee();
-  stage.addChild(new Lettuce().render());
   setupCounter();
   determineGameplay();
 }
@@ -47,96 +46,6 @@ function gameOver() {
   return renderer.render(stage);
 }
 
-var Alligator = function() {
-  this.render = function() {
-    if(enemyPresent) { return };
-    var image = PIXI.Sprite.fromFrame('alligator.png');
-    var randomY = (Math.floor((Math.random() * 500) + 1));
-
-    image.anchor.x = 0.5;
-    image.anchor.y = 0.5;
-    image.position.x = (WIDTH - 10);
-    image.position.y = (randomY + 100);
-    stage.addChild(image);
-    enemyPresent = true;
-    hitArea = image.getBounds();
-
-    image.updateMovement = this.updateMovement;
-    image.checkBounds = this.checkBounds;
-    image.checkEaten = this.checkEaten;
-    return image
-  };
-  var hitArea = null;
-  this.updateMovement = function() {
-    this.position.x -= 0.2 * delta
-  };
-  this.checkBounds = function() {
-    hitArea = this.getBounds();
-    if(this.x < -this.width) {
-      stage.removeChild(this);
-      enemyPresent = false;
-    };
-  };
-  this.checkEaten = function() {
-    if(hitArea.contains(manatee.x, manatee.y)) {
-      gameOver();
-    };
-  }
-}
-
-var Lettuce = function() {
-  this.render =  function() {
-    var image = PIXI.Sprite.fromFrame('food.png');
-    var randomY = (Math.floor((Math.random() * 300) + 1));
-
-    image.anchor.x = 0.5;
-    image.anchor.y = 0.5;
-    image.position.x = 10;
-    image.position.y = randomY;
-    stage.addChild(image);
-
-    image.updateMovement = this.updateMovement;
-    image.checkBounds = this.checkBounds;
-    image.checkEaten = this.checkEaten;
-    speed = (Math.random() * 0.3) + 0.1;
-    return image
-  };
-
-  var down = true;
-  var speed = null;
-  this.updateMovement = function() {
-    this.position.x += 0.2 * delta * speed;
-    var randomNumber = 0.2;
-    if(down){
-      if( this.position.y <= (HEIGHT - 100)){
-        this.position.y += randomNumber * delta;
-      }else{
-        down  = false;
-      }
-    }else{
-      if( this.position.y >= 10){
-        this.position.y -= randomNumber * delta;
-      }else{
-        down  = true;
-      }
-    }
-  };
-
-  this.checkBounds = function() {
-    if(this.x > (WIDTH - 10)) {
-      stage.removeChild(this);
-    };
-  };
-
-  this.checkEaten = function() {
-    if(manatee.hitArea.contains(this.x, this.y)) {
-      counter++;
-      countingText.setText(counter);
-      stage.removeChild(this);
-    };
-  }
-}
-
 function renderManatee() {
   manatee = PIXI.Sprite.fromFrame('manatee-main.png');
 
@@ -154,18 +63,20 @@ function renderManatee() {
 function updateEnvironmentMovements() {
 
   for(i=0; i< stage.children.length; i++) {
+
     if(stage.children[i].updateMovement !== undefined && stage.children[i] !== undefined) {
+
       stage.children[i].updateMovement();
       stage.children[i].checkBounds();
     };
 
-    if(stage.children[i].checkEaten !== undefined) {
-      stage.children[i].checkEaten();
+    if(stage.children[i].eat !== undefined) {
+      stage.children[i].eat();
     }
   };
 
   if(stage.children.length < 100) {
-    new Lettuce().render();
+    new Food();
   };
 }
 
@@ -196,7 +107,7 @@ function createSwimmingFriends() {
 
 function createSwimmingEnemy() {
   if(counter % 105 == 0){
-    new Alligator().render();
+    new Alligator();
   }
 }
 

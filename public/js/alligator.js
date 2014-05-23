@@ -2,6 +2,7 @@ var Alligator = SeaCreature.extend({
   init: function() {
     this._super('alligator', 500);
     this.image.eat = this.eat;
+    this.image.className = 'Alligator'
   },
   onStage: false,
   render: function(yPosition) {
@@ -18,7 +19,7 @@ var Alligator = SeaCreature.extend({
       enemyPresent = false;
     }
   },
-  eat: function() {
+  eat: function(manatee) {
     if(this.getBounds().contains(manatee.x, manatee.y)) {
       gameOver();
     };

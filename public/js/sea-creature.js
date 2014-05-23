@@ -3,6 +3,7 @@ var SeaCreature = Class.extend({
     this.image = PIXI.Sprite.fromFrame(type + '.png'),
     this.image.updateMovement = this.updateMovement;
     this.image.checkBounds = this.checkBounds;
+    this.image.className = 'SeaCreature'
     this.render(yPosition);
   },
   render: function(yPosition){

@@ -3,7 +3,7 @@ var HEIGHT = window.innerHeight;
 var stage = new PIXI.Stage(0xEEFFFF);
 var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
 var renderer = PIXI.autoDetectRenderer(WIDTH, HEIGHT);
-var manatee, delta, timer, enemyPresent;
+var delta, timer, enemyPresent;
 var controller = new Leap.Controller({frameEventName: 'animationFrame'})
 var counter = 0;
 var countingText = new PIXI.Text(counter);
@@ -17,7 +17,7 @@ loader.onComplete = loadGameArtifacts;
 loader.load();
 
 function loadGameArtifacts() {
-  renderManatee();
+  new Manatee();
   setupCounter();
   determineGameplay();
 }
@@ -46,45 +46,34 @@ function gameOver() {
   return renderer.render(stage);
 }
 
-function renderManatee() {
-  manatee = PIXI.Sprite.fromFrame('manatee-main.png');
-
-  manatee.anchor.x = 0.5;
-  manatee.anchor.y = 0.5;
-
-  manatee.position.x = WIDTH / 2;
-  manatee.position.y = HEIGHT / 2;
-
-  manatee.hitArea = new PIXI.Rectangle(30, 30, 100 ,100);
-
-  stage.addChild(manatee);
-}
-
 function updateEnvironmentMovements() {
+  var manatee = stage.children.filter(function(child) {
+    return child.className == 'Manatee';
+  }).pop();
 
-  for(i=0; i< stage.children.length; i++) {
-
-    if(stage.children[i].updateMovement !== undefined && stage.children[i] !== undefined) {
-
-      stage.children[i].updateMovement();
-      stage.children[i].checkBounds();
+  stage.children.forEach(function(child) {
+    if(child instanceof SeaCreature) {
+      child.updateMovement();
+      child.checkBounds();
     };
 
-    if(stage.children[i].eat !== undefined) {
-      stage.children[i].eat();
+    if(child.className == 'Alligator' || child.className == 'Food') {
+      child.eat(manatee)
     }
-  };
+  });
 
   if(stage.children.length < 100) {
     new Food();
   };
-}
+};
 
 function manateeDetection(point) {
-  manatee.position.x = point.x;
-  manatee.position.y = point.y;
-  manatee.hitArea = manatee.getBounds();
-}
+  stage.children.forEach(function(child) {
+    if(child.className == 'Manatee') {
+      child.updateMovement(point);
+    }
+  });
+};
 
 function createSwimmingFriends() {
   switch(true) {

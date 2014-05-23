@@ -4,6 +4,7 @@ var Food = SeaCreature.extend({
     this.image.eat = this.eat;
     this.image.down = true;
     this.image.speed = ((Math.random() * 0.3) + 0.1);
+    this.image.className = 'Food'
   },
   render: function(yPosition) {
     this._super(yPosition);
@@ -30,7 +31,7 @@ var Food = SeaCreature.extend({
       stage.removeChild(this);
     }
   },
-  eat: function() {
+  eat: function(manatee) {
     if(manatee.hitArea.contains(this.x, this.y)) {
       counter++;
       countingText.setText(counter);

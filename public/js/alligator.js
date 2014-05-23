@@ -15,13 +15,13 @@ var Alligator = SeaCreature.extend({
   },
   checkBounds: function() {
     if(this.x < -this.width) {
-      stage.removeChild(this);
+      game.stage.removeChild(this);
       enemyPresent = false;
     }
   },
   eat: function(manatee) {
     if(this.getBounds().contains(manatee.x, manatee.y)) {
-      gameOver();
+      game.gameOver();
     };
   }
 });

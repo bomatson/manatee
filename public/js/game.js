@@ -37,15 +37,35 @@ var Game = Class.extend({
   },
   gameOver: function() {
     var caption = new PIXI.Text("Game Over", {
-      font: "100px Helvetica", fill: "red"
+      font: "80px Helvetica", fill: "red"
     });
 
-    caption.x = WIDTH / 2;
-    caption.y = HEIGHT / 2;
+    caption.x = renderer.width / 4;
+    caption.y = renderer.height / 4;
 
+    this.caption = caption;
+    this.countDownEnabled = true
     this.stage.addChild(caption);
-
-    return renderer.render(this.stage);
+  },
+  countDownEnabled: false,
+  countDown: 3,
+  count: 0,
+  sayings: ['Oh, the Hu-Manatee!', 'No More Manatea for you!', 'Not Our Manatee!', 'God Damn Florida Gators!', 'Stupid Alligator!', 'MANNNYYYYY!!!'],
+  endLoop: function() {
+    var saying = game.sayings[Math.floor(Math.random()*game.sayings.length)];
+    var newText = saying + '\nRestarting in ' + game.countDown;
+    if(game.countDown == 0) {
+      document.location.reload(true);
+      return
+    }
+    if(game.count > 50) {
+      game.count = 0
+      game.caption.setText(newText)
+      game.countDown--
+    }
+    game.count++
+    requestAnimFrame(game.endLoop);
+    renderer.render(game.stage);
   },
   defaultGameLoop: function() {
     game.updateFrame();
@@ -53,6 +73,11 @@ var Game = Class.extend({
     var point = game.stage.getMousePosition();
     game.manateeDetection(point);
 
+    if (game.countDownEnabled){
+      game.endLoop();
+      return
+    }
+    game.count++
     requestAnimFrame(game.defaultGameLoop);
     renderer.render(game.stage);
   },
@@ -108,7 +133,7 @@ var Game = Class.extend({
     }
   },
   createSwimmingEnemy: function() {
-    if(counter % 105 == 0){
+    if(counter % 105 == 0 || enemyPresent == false){
       new Alligator();
     }
   },

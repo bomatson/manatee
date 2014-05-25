@@ -110,7 +110,7 @@ var Game = Class.extend({
       }
     });
 
-    if(this.stage.children.length < 100) {
+    if(this.stage.children.length < 150) {
       new Food();
     };
   },

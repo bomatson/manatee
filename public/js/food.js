@@ -3,15 +3,15 @@ var Food = SeaCreature.extend({
     this._super('food', 300);
     this.image.eat = this.eat;
     this.image.down = true;
-    this.image.speed = ((Math.random() * 0.3) + 0.1);
+    this.image.speed = ((Math.random() * 0.5) + 0.2);
     this.image.className = 'Food'
   },
   render: function(yPosition) {
-    this._super(yPosition);
+    this._super(500);
     this.image.position.x = 10;
   },
   updateMovement: function() {
-    this.position.x += 0.2 * delta * this.speed;
+    this.position.x += 0.3 * delta * this.speed;
     if(this.down){
       if( this.position.y <= (HEIGHT - 100)){
         this.position.y += 0.2 * delta;
@@ -28,6 +28,7 @@ var Food = SeaCreature.extend({
   },
   checkBounds: function() {
     if(this.x > (WIDTH - 10)) {
+      game.gameOver();
       game.stage.removeChild(this);
     }
   },

@@ -15,7 +15,7 @@ var Alligator = SeaCreature.extend({
   },
   checkBounds: function() {
     if(this.x < -this.width) {
-      game.stage.removeChild(this);
+      game.world.removeChild(this);
       enemyPresent = false;
     }
   },

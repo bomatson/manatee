@@ -1,9 +1,9 @@
 // World scale: on screens narrower than the design width, shrink the whole
 // stage so the sprites fit. Positions in the game are in world units.
-// A portrait phone uses a wider design width so the sprites take up about
-// half the screen width instead of most of it.
+// A portrait phone uses a slightly wider design width so the sprites take
+// about the same share of the screen width as on a desktop window.
 var DESIGN_WIDTH_LANDSCAPE = 1100;
-var DESIGN_WIDTH_PORTRAIT = 1600;
+var DESIGN_WIDTH_PORTRAIT = 1200;
 var DESKTOP_AREA = 1200 * 700;
 var SCALE = 1;
 var WIDTH, HEIGHT, MAX_CHILDREN;

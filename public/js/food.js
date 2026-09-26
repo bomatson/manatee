@@ -27,8 +27,9 @@ var Food = SeaCreature.extend({
     }
   },
   checkBounds: function() {
+    // Lettuce that drifts past the right edge is gone. It is not a loss;
+    // only the alligator ends the game.
     if(this.x > (WIDTH - 10)) {
-      game.gameOver();
       game.world.removeChild(this);
     }
   },

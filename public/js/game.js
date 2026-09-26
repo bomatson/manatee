@@ -1,6 +1,6 @@
 var Game = Class.extend({
   init: function() {
-    var loader = new PIXI.AssetLoader(['/images/spritesheet.json'], true);
+    var loader = new PIXI.AssetLoader(['images/spritesheet.json'], true);
     loader.onComplete = this.loadGameArtifacts;
     document.body.appendChild(renderer.view);
     loader.load()

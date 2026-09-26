@@ -1,13 +1,23 @@
 // World scale: on screens narrower than the design width, shrink the whole
 // stage so the sprites fit. Positions in the game are in world units.
-var DESIGN_WIDTH = 1100;
+// A portrait phone uses a wider design width so the sprites take up about
+// half the screen width instead of most of it.
+var DESIGN_WIDTH_LANDSCAPE = 1100;
+var DESIGN_WIDTH_PORTRAIT = 1600;
+var DESKTOP_AREA = 1200 * 700;
 var SCALE = 1;
-var WIDTH, HEIGHT;
+var WIDTH, HEIGHT, MAX_CHILDREN;
 
 function computeWorldSize() {
-  SCALE = Math.min(1, window.innerWidth / DESIGN_WIDTH);
+  var portrait = window.innerHeight > window.innerWidth;
+  var designWidth = portrait ? DESIGN_WIDTH_PORTRAIT : DESIGN_WIDTH_LANDSCAPE;
+  SCALE = Math.min(1, window.innerWidth / designWidth);
   WIDTH = window.innerWidth / SCALE;
   HEIGHT = window.innerHeight / SCALE;
+  // Cap the number of sprites in proportion to the screen area so a phone
+  // screen is not packed as densely as a desktop window.
+  var areaRatio = (window.innerWidth * window.innerHeight) / DESKTOP_AREA;
+  MAX_CHILDREN = Math.max(30, Math.min(150, Math.round(150 * areaRatio)));
 }
 computeWorldSize();
 
@@ -45,9 +55,9 @@ window.addEventListener('touchmove', onTouch, { passive: false });
 function onResize() {
   computeWorldSize();
   renderer.resize(window.innerWidth, window.innerHeight);
-  if (window.game && game.stage) {
-    game.stage.scale.x = SCALE;
-    game.stage.scale.y = SCALE;
+  if (window.game && game.world) {
+    game.world.scale.x = SCALE;
+    game.world.scale.y = SCALE;
     game.layoutHud();
   }
 }

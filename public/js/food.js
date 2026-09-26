@@ -29,14 +29,14 @@ var Food = SeaCreature.extend({
   checkBounds: function() {
     if(this.x > (WIDTH - 10)) {
       game.gameOver();
-      game.stage.removeChild(this);
+      game.world.removeChild(this);
     }
   },
   eat: function(manatee) {
     if(manatee.hitArea.contains(this.x, this.y)) {
       counter++;
       game.countingText.setText(counter);
-      game.stage.removeChild(this);
+      game.world.removeChild(this);
     };
   }
 });

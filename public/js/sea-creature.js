@@ -26,14 +26,14 @@ var SeaCreature = Class.extend({
     this.image.position.x = (WIDTH - 10);
     this.image.position.y = (randomY + 100);
 
-    game.stage.addChild(this.image);
+    game.world.addChild(this.image);
   },
   updateMovement: function() {
     this.position.x -= 0.2 * delta;
   },
   checkBounds: function() {
     if(this.x < -this.width) {
-      game.stage.removeChild(this);
+      game.world.removeChild(this);
     }
   }
 });

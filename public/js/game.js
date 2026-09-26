@@ -13,7 +13,7 @@ var Game = Class.extend({
     this.world.scale.y = SCALE;
     this.stage.addChild(this.world);
     this.countingText = new PIXI.Text(counter, { font: "26px Helvetica" });
-    this.hintText = new PIXI.Text("Touch or move to swim", {
+    this.hintText = new PIXI.Text("Touch and drag to swim", {
       font: "bold 22px Helvetica", fill: "#1F3F4A"
     });
     this.hintText.anchor.x = 0.5;

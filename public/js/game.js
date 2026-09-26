@@ -13,7 +13,7 @@ var Game = Class.extend({
     this.world.scale.y = SCALE;
     this.stage.addChild(this.world);
     this.countingText = new PIXI.Text(counter, { font: "26px Helvetica" });
-    this.hintText = new PIXI.Text("Touch and drag to swim", {
+    this.hintText = new PIXI.Text("Touch or move to swim", {
       font: "bold 22px Helvetica", fill: "#1F3F4A"
     });
     this.hintText.anchor.x = 0.5;
@@ -21,7 +21,8 @@ var Game = Class.extend({
   loadGameArtifacts: function() {
     new Manatee();
     game.setupCounter();
-    // Touch devices start frozen and wait for the first touch.
+    // Touch devices start frozen and wait for the first input of any kind
+    // (touch, mouse, or Leap), so touchscreen laptops still start.
     game.started = !isTouchDevice();
     game.determineGameplay();
   },
@@ -92,7 +93,7 @@ var Game = Class.extend({
       new Alligator();
       game.sceneReady = true;
     }
-    if(input.hasTouched) {
+    if(input.hasInput) {
       game.started = true;
       game.stage.removeChild(game.hintText);
       timer = window.performance.now();

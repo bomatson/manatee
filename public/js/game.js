@@ -5,43 +5,61 @@ var Game = Class.extend({
     document.body.appendChild(renderer.view);
     loader.load()
     this.stage = new PIXI.Stage(0xEEFFFF);
-    this.countingText = new PIXI.Text(counter);
+    // All sprites live in the world container, which carries the scale.
+    // (PIXI 1.5 ignores scale set on the Stage itself.) HUD text sits on
+    // the stage in screen pixels.
+    this.world = new PIXI.DisplayObjectContainer();
+    this.world.scale.x = SCALE;
+    this.world.scale.y = SCALE;
+    this.stage.addChild(this.world);
+    this.countingText = new PIXI.Text(counter, { font: "26px Helvetica" });
+    this.hintText = new PIXI.Text("Touch and drag to swim", {
+      font: "bold 22px Helvetica", fill: "#1F3F4A"
+    });
+    this.hintText.anchor.x = 0.5;
   },
   loadGameArtifacts: function() {
     new Manatee();
     game.setupCounter();
+    // Touch devices start frozen and wait for the first input of any kind
+    // (touch, mouse, or Leap), so touchscreen laptops still start.
+    game.started = !isTouchDevice();
     game.determineGameplay();
   },
   setupCounter: function() {
-    this.countingText.position.x = (WIDTH - 100);
-    this.countingText.position.y = 30;
     this.countingText.anchor.x = 0.5;
     this.stage.addChild(this.countingText);
+    if(isTouchDevice()) {
+      this.stage.addChild(this.hintText);
+    }
+    this.layoutHud();
+  },
+  layoutHud: function() {
+    // HUD positions are in screen pixels.
+    this.countingText.position.x = window.innerWidth - 60;
+    this.countingText.position.y = 20;
+    this.hintText.position.x = window.innerWidth / 2;
+    this.hintText.position.y = window.innerHeight - 80;
   },
   determineGameplay: function() {
-    if(controller.streaming()) {
-      controller.on('frame', function(frame) {
-        this.updateFrame();
-
-        frame.hands.forEach(function(hand) {
-          var point = hand.screenPosition()
-          point = {x: point[0], y: point[1]};
-          manateeDetection(point);
-        });
-
-        renderer.render(this.stage);
+    // The Leap controller (when a device streams) writes hand positions into
+    // the shared input point. Mouse and touch write there too. One loop reads it.
+    controller.on('frame', function(frame) {
+      frame.hands.forEach(function(hand) {
+        var point = hand.screenPosition()
+        input.set(point[0], point[1]);
       });
-    } else {
-      requestAnimFrame(this.defaultGameLoop);
-    }
+    });
+    requestAnimFrame(this.defaultGameLoop);
   },
   gameOver: function() {
+    var size = Math.min(80, Math.round(window.innerWidth / 8));
     var caption = new PIXI.Text("Game Over", {
-      font: "80px Helvetica", fill: "red"
+      font: size + "px Helvetica", fill: "red"
     });
 
-    caption.x = renderer.width / 4;
-    caption.y = renderer.height / 4;
+    caption.x = window.innerWidth / 4;
+    caption.y = window.innerHeight / 4;
 
     this.caption = caption;
     this.countDownEnabled = true
@@ -67,11 +85,29 @@ var Game = Class.extend({
     requestAnimFrame(game.endLoop);
     renderer.render(game.stage);
   },
+  started: false,
+  sceneReady: false,
+  waitForTouch: function() {
+    // Show a frozen scene: the manatee, the alligator, and the hint.
+    if(!game.sceneReady) {
+      new Alligator();
+      game.sceneReady = true;
+    }
+    if(input.hasInput) {
+      game.started = true;
+      game.stage.removeChild(game.hintText);
+      timer = window.performance.now();
+    }
+    requestAnimFrame(game.defaultGameLoop);
+    renderer.render(game.stage);
+  },
   defaultGameLoop: function() {
+    if(!game.started) {
+      game.waitForTouch();
+      return
+    }
     game.updateFrame();
-
-    var point = game.stage.getMousePosition();
-    game.manateeDetection(point);
+    game.manateeDetection(input.point);
 
     if (game.countDownEnabled){
       game.endLoop();
@@ -93,11 +129,11 @@ var Game = Class.extend({
     this.createSwimmingEnemy();
   },
   updateEnvironmentMovements: function() {
-    var manatee = this.stage.children.filter(function(child) {
+    var manatee = this.world.children.filter(function(child) {
       return child.className == 'Manatee';
     }).pop();
 
-    this.stage.children.forEach(function(child) {
+    this.world.children.forEach(function(child) {
       if(child.className == 'Alligator' || child.className == 'Food') {
         child.updateMovement();
         child.checkBounds();
@@ -110,9 +146,15 @@ var Game = Class.extend({
       }
     });
 
-    if(this.stage.children.length < 150) {
+    if(this.world.children.length < MAX_CHILDREN) {
       new Food();
     };
+
+    // Keep the manatee above the food and fish. Later children draw on top.
+    if(manatee) {
+      this.world.removeChild(manatee);
+      this.world.addChild(manatee);
+    }
   },
   createSwimmingFriends: function() {
     switch(true) {
@@ -138,10 +180,14 @@ var Game = Class.extend({
     }
   },
   manateeDetection: function(point) {
-    this.stage.children.forEach(function(child) {
+    this.world.children.forEach(function(child) {
       if(child.className == 'Manatee') {
         child.updateMovement(point);
       }
     });
   }
 });
+
+function isTouchDevice() {
+  return ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+}

@@ -31,8 +31,11 @@ var counter = 0;
 // world units. The Leap controller writes here too when it streams frames.
 var input = {
   point: undefined,
-  hasTouched: false,
+  // True once any input (mouse, touch, or Leap) has arrived. The frozen start
+  // on touch devices ends on the first input of any kind.
+  hasInput: false,
   set: function(clientX, clientY) {
+    this.hasInput = true;
     this.point = { x: clientX / SCALE, y: clientY / SCALE };
   }
 };
@@ -44,7 +47,6 @@ function onMouseMove(event) {
 function onTouch(event) {
   if (event.touches.length === 0) { return; }
   var touch = event.touches[0];
-  input.hasTouched = true;
   input.set(touch.clientX, touch.clientY);
   event.preventDefault();
 }
@@ -60,7 +62,19 @@ function onResize() {
     game.world.scale.x = SCALE;
     game.world.scale.y = SCALE;
     game.layoutHud();
+    removeFoodPastRightEdge();
   }
+}
+
+// When the world shrinks, food that is now past the right edge would trigger
+// game over on the next frame. Drop it instead. Iterate over a copy because
+// removeChild mutates the children array.
+function removeFoodPastRightEdge() {
+  game.world.children.slice().forEach(function(child) {
+    if (child.className == 'Food' && child.x > (WIDTH - 10)) {
+      game.world.removeChild(child);
+    }
+  });
 }
 window.addEventListener('resize', onResize);
 window.addEventListener('orientationchange', onResize);

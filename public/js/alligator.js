@@ -20,7 +20,7 @@ var Alligator = SeaCreature.extend({
     }
   },
   eat: function(manatee) {
-    if(this.getBounds().contains(manatee.x, manatee.y)) {
+    if(worldBounds(this).contains(manatee.x, manatee.y)) {
       game.gameOver();
     };
   }

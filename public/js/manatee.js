@@ -7,12 +7,12 @@ var Manatee = SeaCreature.extend({
     this._super(yPosition);
     this.image.position.x = WIDTH / 2;
     this.image.position.y = HEIGHT / 2;
-    this.hitArea = new PIXI.Rectangle(30, 30, 100 ,100);
+    this.image.hitArea = worldBounds(this.image);
   },
   updateMovement: function(point) {
     if(point == undefined) { return }
     this.position.x = point.x;
     this.position.y = point.y;
-    this.hitArea = this.getBounds();
+    this.hitArea = worldBounds(this);
   }
 });

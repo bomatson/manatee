@@ -5,7 +5,13 @@ var Game = Class.extend({
     document.body.appendChild(renderer.view);
     loader.load()
     this.stage = new PIXI.Stage(0xEEFFFF);
+    this.stage.scale.x = SCALE;
+    this.stage.scale.y = SCALE;
     this.countingText = new PIXI.Text(counter);
+    this.hintText = new PIXI.Text("Touch and drag to swim", {
+      font: "bold 40px Helvetica", fill: "#1F3F4A"
+    });
+    this.hintText.anchor.x = 0.5;
   },
   loadGameArtifacts: function() {
     new Manatee();
@@ -13,35 +19,37 @@ var Game = Class.extend({
     game.determineGameplay();
   },
   setupCounter: function() {
-    this.countingText.position.x = (WIDTH - 100);
-    this.countingText.position.y = 30;
     this.countingText.anchor.x = 0.5;
     this.stage.addChild(this.countingText);
+    if(isTouchDevice()) {
+      this.stage.addChild(this.hintText);
+    }
+    this.layoutHud();
+  },
+  layoutHud: function() {
+    this.countingText.position.x = (WIDTH - 100);
+    this.countingText.position.y = 30;
+    this.hintText.position.x = WIDTH / 2;
+    this.hintText.position.y = HEIGHT - 120;
   },
   determineGameplay: function() {
-    if(controller.streaming()) {
-      controller.on('frame', function(frame) {
-        this.updateFrame();
-
-        frame.hands.forEach(function(hand) {
-          var point = hand.screenPosition()
-          point = {x: point[0], y: point[1]};
-          manateeDetection(point);
-        });
-
-        renderer.render(this.stage);
+    // The Leap controller (when a device streams) writes hand positions into
+    // the shared input point. Mouse and touch write there too. One loop reads it.
+    controller.on('frame', function(frame) {
+      frame.hands.forEach(function(hand) {
+        var point = hand.screenPosition()
+        input.set(point[0], point[1]);
       });
-    } else {
-      requestAnimFrame(this.defaultGameLoop);
-    }
+    });
+    requestAnimFrame(this.defaultGameLoop);
   },
   gameOver: function() {
     var caption = new PIXI.Text("Game Over", {
       font: "80px Helvetica", fill: "red"
     });
 
-    caption.x = renderer.width / 4;
-    caption.y = renderer.height / 4;
+    caption.x = WIDTH / 4;
+    caption.y = HEIGHT / 4;
 
     this.caption = caption;
     this.countDownEnabled = true
@@ -70,8 +78,10 @@ var Game = Class.extend({
   defaultGameLoop: function() {
     game.updateFrame();
 
-    var point = game.stage.getMousePosition();
-    game.manateeDetection(point);
+    if(input.hasTouched && game.hintText.parent) {
+      game.stage.removeChild(game.hintText);
+    }
+    game.manateeDetection(input.point);
 
     if (game.countDownEnabled){
       game.endLoop();
@@ -145,3 +155,7 @@ var Game = Class.extend({
     });
   }
 });
+
+function isTouchDevice() {
+  return ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+}

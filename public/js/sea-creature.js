@@ -1,3 +1,15 @@
+// A sprite's box in world units. Sprites are anchored at their center.
+// (getBounds() returns screen units after the stage scale, so it is not
+// safe for hit tests against world positions.)
+function worldBounds(sprite) {
+  return new PIXI.Rectangle(
+    sprite.position.x - sprite.width / 2,
+    sprite.position.y - sprite.height / 2,
+    sprite.width,
+    sprite.height
+  );
+}
+
 var SeaCreature = Class.extend({
   init: function(type, yPosition) {
     this.image = PIXI.Sprite.fromFrame(type + '.png'),

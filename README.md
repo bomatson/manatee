@@ -1,3 +1,21 @@
+# Manatees!
+
+Live at https://bomatson.github.io/manatee/. Works with a LeapMotion, a mouse, or a finger on a phone.
+
+## Run, test, deploy
+
+Node 22 or newer. The repo commits `node_modules`, so there is no install step.
+
+```
+npm start        # serves the game at http://localhost:5000 (set PORT to change)
+npm test         # syntax check + headless Chrome tests (needs Chrome; set CHROME_PATH if not found)
+npm run build    # renders dist/ for static hosting
+```
+
+Every pull request runs `npm test` in CI. Every push to `master` builds `dist/` and deploys it to GitHub Pages.
+
+---
+
 #Launching a LeapMotion Manatee App
 
 The LeapMotion, a small usb device used to gather motion sensing data, has a variety of applications in science, medicine, and the arts. Previously, [ I worked on a Leap DrumKit using Ruby and MIDI ](http://blog.carbonfive.com/2014/03/20/building-a-leapmotion-drumset-in-ruby/) and it was a great experience. For the next Leap app, I opted to get a little more sophisticated. This time, I wanted to create an environment where swimming manatees are controlled with your fingertips. 

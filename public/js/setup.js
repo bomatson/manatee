@@ -4,7 +4,8 @@
 // about the same share of the screen width as on a desktop window.
 var DESIGN_WIDTH_LANDSCAPE = 1100;
 var DESIGN_WIDTH_PORTRAIT = 1200;
-var DESKTOP_AREA = 1200 * 700;
+var DESIGN_HEIGHT = 700;
+var DESKTOP_AREA = 1200 * DESIGN_HEIGHT;
 var SCALE = 1;
 var WIDTH, HEIGHT, MAX_CHILDREN;
 

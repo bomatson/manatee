@@ -27,6 +27,23 @@ var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 var delta, enemyPresent;
 var counter = 0;
 
+// Progression. The manatee starts tiny and grows with every lettuce it eats,
+// so a big manatee has a harder time slipping past the alligator. The whole
+// sea (lettuce, fish, and the alligator) also speeds up as the score climbs.
+var MANATEE_START_SCALE = 0.35;
+var MANATEE_MAX_SCALE = 1.4;
+var MANATEE_GROWTH_PER_LETTUCE = 0.0035;  // full size at 300 lettuce
+var SPEED_MAX = 2.5;
+var SPEED_GAIN_PER_LETTUCE = 1 / 300;     // 2x at 300 lettuce, 2.5x at 450
+
+function manateeScale() {
+  return Math.min(MANATEE_MAX_SCALE, MANATEE_START_SCALE + counter * MANATEE_GROWTH_PER_LETTUCE);
+}
+
+function speedFactor() {
+  return Math.min(SPEED_MAX, 1 + counter * SPEED_GAIN_PER_LETTUCE);
+}
+
 // Unified pointer input: mouse, touch, and pointer events all land here in
 // world units. The Leap controller writes here too when it streams frames.
 var input = {

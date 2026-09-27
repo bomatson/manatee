@@ -25,7 +25,7 @@ if (!up) { console.log('FAIL  server did not start'); server.kill(); process.exi
 process.env.GAME_URL = `http://127.0.0.1:${PORT}/`;
 
 try {
-  for (const name of ['./collision.test.mjs', './mobile.test.mjs']) {
+  for (const name of ['./collision.test.mjs', './progression.test.mjs', './mobile.test.mjs']) {
     const mod = await import(name);
     ok = (await mod.run()) && ok;
   }

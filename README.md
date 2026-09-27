@@ -14,6 +14,10 @@ npm run build    # renders dist/ for static hosting
 
 Every pull request runs `npm test` in CI. Every push to `master` builds `dist/` and deploys it to GitHub Pages.
 
+## How it plays
+
+The manatee starts tiny and grows with every lettuce it eats, up to four times its starting size. A big manatee has a harder time slipping past the alligator. The sea also speeds up as the score climbs: lettuce, fish, and the alligator all move faster, up to 2.5x. The tuning constants live at the top of `public/js/setup.js`.
+
 ---
 
 #Launching a LeapMotion Manatee App

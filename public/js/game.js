@@ -123,11 +123,19 @@ var Game = Class.extend({
     timer = now;
 
     this.updateEnvironmentMovements();
-    if(counter > 100) {
-      this.createSwimmingFriends();
+    // Fish spawns key off the score. Check them once per score change, not
+    // every frame. A score that sits on a multiple of 39 used to spawn a
+    // fish per frame until the next lettuce. Those fish count toward
+    // MAX_CHILDREN, so they starved the lettuce supply and the game stalled.
+    if(counter != this.lastSpawnCounter) {
+      this.lastSpawnCounter = counter;
+      if(counter > 100) {
+        this.createSwimmingFriends();
+      }
     }
     this.createSwimmingEnemy();
   },
+  lastSpawnCounter: -1,
   updateEnvironmentMovements: function() {
     var manatee = this.world.children.filter(function(child) {
       return child.className == 'Manatee';

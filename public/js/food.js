@@ -11,16 +11,17 @@ var Food = SeaCreature.extend({
     this.image.position.x = 10;
   },
   updateMovement: function() {
-    this.position.x += 0.3 * delta * this.speed;
+    var pace = speedFactor();
+    this.position.x += 0.3 * delta * this.speed * pace;
     if(this.down){
       if( this.position.y <= (HEIGHT - 100)){
-        this.position.y += 0.2 * delta;
+        this.position.y += 0.2 * delta * pace;
       }else{
         this.down  = false;
       }
     }else{
       if( this.position.y >= 10){
-        this.position.y -= 0.2 * delta;
+        this.position.y -= 0.2 * delta * pace;
       }else{
         this.down  = true;
       }
@@ -38,6 +39,7 @@ var Food = SeaCreature.extend({
       counter++;
       game.countingText.setText(counter);
       game.world.removeChild(this);
+      manatee.grow();
     };
   }
 });

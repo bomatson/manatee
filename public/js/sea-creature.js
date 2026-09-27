@@ -34,7 +34,7 @@ var SeaCreature = Class.extend({
     game.world.addChild(this.image);
   },
   updateMovement: function() {
-    this.position.x -= 0.2 * delta;
+    this.position.x -= 0.2 * delta * speedFactor();
   },
   checkBounds: function() {
     if(this.x < -this.width) {
